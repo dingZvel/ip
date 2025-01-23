@@ -1,4 +1,3 @@
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Lee {
@@ -23,6 +22,23 @@ public class Lee {
         }
         else if (first.equals("unmark")) {
             mark(cmds[1], false);
+        }
+        else if (first.equals("todo")) {
+            String task = command.split(" ", 2)[1];
+            addToDo(task);
+        }
+        else if (first.equals("deadline")) {
+            String order = command.split(" ", 2)[1];
+            String task = order.split("/by")[0];
+            String by = order.split("/by")[1];
+            addDeadline(task, by);
+        }
+        else if (first.equals("event")) {
+            String order = command.split(" ", 2)[1];
+            String task = order.split("/from")[0];
+            String from = order.split("/from")[1].split("/to")[0];
+            String to = order.split("/from")[1].split("/to")[1];
+            addEvent(task, from, to);
         }
         else {
             addTasks(command);
@@ -52,6 +68,30 @@ public class Lee {
         tasks[index].isDone = b;
         System.out.format("%s I've marked this task as %s:\n"
                 + showTask(index), b ? "Nice!" : "OK,", b ? "done" : "not done yet");
+    }
+
+    private static void addToDo(String task) {
+        tasks[numOfTasks] = new ToDo(task);
+        numOfTasks ++;
+        System.out.format("Got it. I've added this task:\n  %s\n" +
+                "Now you have %d tasks in the lists.\n",
+                tasks[numOfTasks - 1].toString(), numOfTasks);
+    }
+
+    private static void addDeadline(String task, String by) {
+        tasks[numOfTasks] = new Deadline(task, by);
+        numOfTasks ++;
+        System.out.format("Got it. I've added this task:\n  %s\n" +
+                        "Now you have %d tasks in the lists.\n",
+                tasks[numOfTasks - 1].toString(), numOfTasks);
+    }
+
+    private static void addEvent(String task, String from, String to) {
+        tasks[numOfTasks] = new Event(task, from, to);
+        numOfTasks ++;
+        System.out.format("Got it. I've added this task:\n  %s\n" +
+                        "Now you have %d tasks in the lists.\n",
+                tasks[numOfTasks - 1].toString(), numOfTasks);
     }
 
     public static void main(String[] args) {
