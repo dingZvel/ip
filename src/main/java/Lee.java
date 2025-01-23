@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Lee {
@@ -5,10 +6,11 @@ public class Lee {
     private static final String greets = "Hello! I'm Lee.\n"
             + "What can I do for you?\n";
     private static final String exits = "Bye. Hope to see you again soon!\n";
-    private static final Task[] tasks = new Task[100];
+    private static final ArrayList<Task> tasks = new ArrayList<>();
+//    private static final Task[] tasks = new Task[100];
 //    private static String[] tasks = new String[100];
 //    private static boolean[] taskStatus = new boolean[100];
-    private static int numOfTasks = 0;
+//    private static int numOfTasks = 0;
 
     private static void analyze(String command) {
         System.out.print(horLine);
@@ -19,9 +21,15 @@ public class Lee {
                 listTasks();
             }
             else if (first.equals("mark")) {
+                if (cmds.length < 2) {
+                    throw new LeeException("Please indicate which task you want to mark with the task index");
+                }
                 mark(cmds[1], true);
             }
             else if (first.equals("unmark")) {
+                if (cmds.length < 2) {
+                    throw new LeeException("Please indicate which task you want to unmark with the task index");
+                }
                 mark(cmds[1], false);
             }
             else if (first.equals("todo")) {
@@ -37,7 +45,7 @@ public class Lee {
                 }
                 String order = command.split(" ", 2)[1];
                 if (order.split("/by").length < 2) {
-                    throw new LeeException("Please make sure to use \"/by\"to indicate the deadline");
+                    throw new LeeException("Please make sure to use \"/by\" to indicate the deadline");
                 }
                 String task = order.split("/by")[0];
                 String by = order.split("/by")[1];
@@ -59,6 +67,12 @@ public class Lee {
                 String to = order.split("/from")[1].split("/to")[1];
                 addEvent(task, from, to);
             }
+            else if (first.equals("delete")) {
+                if (cmds.length < 2) {
+                    throw new LeeException("Please indicate which task you want to delete with the task index");
+                }
+                deleteTask(cmds[1]);
+            }
             else {
 //            addTasks(command);
                 throw new LeeException("Command not found TT");
@@ -71,7 +85,7 @@ public class Lee {
 
     private static void listTasks(){
         System.out.println("Here are the tasks in your list:");
-        for (int i = 0; i < numOfTasks; i ++){
+        for (int i = 0; i < tasks.size(); i ++){
             System.out.format("%d." + showTask(i), i + 1);
         }
     }
@@ -83,38 +97,48 @@ public class Lee {
 //    }
 
     private static String showTask(int index) {
-        return tasks[index].toString() + "\n";
+        return tasks.get(index).toString() + "\n";
     }
 
-    private static void mark(String num, boolean b){
+    private static void mark(String num, boolean b) throws LeeException {
         int index = Integer.parseInt(num) - 1;
-        tasks[index].isDone = b;
+        if (index >= tasks.size()) {
+            throw new LeeException("Please input a correct task index");
+        }
+        tasks.get(index).isDone = b;
         System.out.format("%s I've marked this task as %s:\n"
                 + showTask(index), b ? "Nice!" : "OK,", b ? "done" : "not done yet");
     }
 
     private static void addToDo(String task) {
-        tasks[numOfTasks] = new ToDo(task);
-        numOfTasks ++;
+        tasks.add(new ToDo(task));
         System.out.format("Got it. I've added this task:\n  %s\n" +
-                "Now you have %d tasks in the lists.\n",
-                tasks[numOfTasks - 1].toString(), numOfTasks);
+                        "Now you have %d tasks in the list.\n",
+                tasks.get(tasks.size() - 1).toString(), tasks.size());
     }
 
     private static void addDeadline(String task, String by) {
-        tasks[numOfTasks] = new Deadline(task, by);
-        numOfTasks ++;
+        tasks.add(new Deadline(task, by));
         System.out.format("Got it. I've added this task:\n  %s\n" +
-                        "Now you have %d tasks in the lists.\n",
-                tasks[numOfTasks - 1].toString(), numOfTasks);
+                        "Now you have %d tasks in the list.\n",
+                tasks.get(tasks.size() - 1).toString(), tasks.size());
     }
 
     private static void addEvent(String task, String from, String to) {
-        tasks[numOfTasks] = new Event(task, from, to);
-        numOfTasks ++;
+        tasks.add(new Event(task, from, to));
         System.out.format("Got it. I've added this task:\n  %s\n" +
-                        "Now you have %d tasks in the lists.\n",
-                tasks[numOfTasks - 1].toString(), numOfTasks);
+                        "Now you have %d tasks in the list.\n",
+                tasks.get(tasks.size() - 1).toString(), tasks.size());
+    }
+
+    private static void deleteTask(String num) throws LeeException {
+        int index = Integer.parseInt(num) - 1;
+        if (index >= tasks.size()) {
+            throw new LeeException("Please input a correct task index");
+        }
+        System.out.format("Noted. I've removed this task:\n  " +
+                tasks.remove(index).toString() + "\n" +
+                        "Now you have %d tasks in the list.\n", tasks.size());
     }
 
     public static void main(String[] args) {

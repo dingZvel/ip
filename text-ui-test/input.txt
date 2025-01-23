@@ -4,10 +4,17 @@ event project meeting /from Mon 2pm /to 4pm
 list
 mark 1
 unmark 1
+mark
+unmark
+mark 10
+unmark 10
 abcd
 todo
 deadline abc
 event abc
 event abc /from 8am
 event abc /to 8am
+delete
+delete 1
+delete 10
 bye
