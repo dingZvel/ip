@@ -1,4 +1,4 @@
-# Duke User Guide
+# Lee User Guide
 
 // Update the title above to match the actual product name
 
