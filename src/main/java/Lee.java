@@ -14,34 +14,57 @@ public class Lee {
         System.out.print(horLine);
         String[] cmds = command.split(" ");
         String first = cmds[0];
-        if (command.equals("list")) {
-            listTasks();
-        }
-        else if (first.equals("mark")) {
-            mark(cmds[1], true);
-        }
-        else if (first.equals("unmark")) {
-            mark(cmds[1], false);
-        }
-        else if (first.equals("todo")) {
-            String task = command.split(" ", 2)[1];
-            addToDo(task);
-        }
-        else if (first.equals("deadline")) {
-            String order = command.split(" ", 2)[1];
-            String task = order.split("/by")[0];
-            String by = order.split("/by")[1];
-            addDeadline(task, by);
-        }
-        else if (first.equals("event")) {
-            String order = command.split(" ", 2)[1];
-            String task = order.split("/from")[0];
-            String from = order.split("/from")[1].split("/to")[0];
-            String to = order.split("/from")[1].split("/to")[1];
-            addEvent(task, from, to);
-        }
-        else {
-            addTasks(command);
+        try {
+            if (command.equals("list")) {
+                listTasks();
+            }
+            else if (first.equals("mark")) {
+                mark(cmds[1], true);
+            }
+            else if (first.equals("unmark")) {
+                mark(cmds[1], false);
+            }
+            else if (first.equals("todo")) {
+                if (command.split(" ", 2).length < 2) {
+                    throw new LeeException("Please give the task description.");
+                }
+                String task = command.split(" ", 2)[1];
+                addToDo(task);
+            }
+            else if (first.equals("deadline")) {
+                if (command.split(" ", 2).length < 2) {
+                    throw new LeeException("Please give the task description.");
+                }
+                String order = command.split(" ", 2)[1];
+                if (order.split("/by").length < 2) {
+                    throw new LeeException("Please make sure to use \"/by\"to indicate the deadline");
+                }
+                String task = order.split("/by")[0];
+                String by = order.split("/by")[1];
+                addDeadline(task, by);
+            }
+            else if (first.equals("event")) {
+                if (command.split(" ", 2).length < 2) {
+                    throw new LeeException("Please give the task description.");
+                }
+                String order = command.split(" ", 2)[1];
+                if (order.split("/from").length < 2) {
+                    throw new LeeException("Please make sure to use \"/from\" to indicate the start time");
+                }
+                String task = order.split("/from")[0];
+                if (order.split("/from")[1].split("/to").length < 2) {
+                    throw new LeeException("Please make sure to use \"/to\" to indicate the end time");
+                }
+                String from = order.split("/from")[1].split("/to")[0];
+                String to = order.split("/from")[1].split("/to")[1];
+                addEvent(task, from, to);
+            }
+            else {
+//            addTasks(command);
+                throw new LeeException("Command not found TT");
+            }
+        } catch (LeeException e) {
+            System.out.println(e.getMessage());
         }
         System.out.println(horLine);
     }
@@ -53,11 +76,11 @@ public class Lee {
         }
     }
 
-    private static void addTasks(String task) {
-        tasks[numOfTasks] = new Task(task);
-        numOfTasks ++;
-        System.out.format("added: %s\n", task);
-    }
+//    private static void addTasks(String task) {
+//        tasks[numOfTasks] = new Task(task);
+//        numOfTasks ++;
+//        System.out.format("added: %s\n", task);
+//    }
 
     private static String showTask(int index) {
         return tasks[index].toString() + "\n";
