@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -25,12 +29,14 @@ public class Lee {
                     throw new LeeException("Please indicate which task you want to mark with the task index");
                 }
                 mark(cmds[1], true);
+                refreshTaskList();
             }
             else if (first.equals("unmark")) {
                 if (cmds.length < 2) {
                     throw new LeeException("Please indicate which task you want to unmark with the task index");
                 }
                 mark(cmds[1], false);
+                refreshTaskList();
             }
             else if (first.equals("todo")) {
                 if (command.split(" ", 2).length < 2) {
@@ -38,6 +44,7 @@ public class Lee {
                 }
                 String task = command.split(" ", 2)[1];
                 addToDo(task);
+                refreshTaskList();
             }
             else if (first.equals("deadline")) {
                 if (command.split(" ", 2).length < 2) {
@@ -50,6 +57,7 @@ public class Lee {
                 String task = order.split("/by")[0];
                 String by = order.split("/by")[1];
                 addDeadline(task, by);
+                refreshTaskList();
             }
             else if (first.equals("event")) {
                 if (command.split(" ", 2).length < 2) {
@@ -66,15 +74,17 @@ public class Lee {
                 String from = order.split("/from")[1].split("/to")[0];
                 String to = order.split("/from")[1].split("/to")[1];
                 addEvent(task, from, to);
+                refreshTaskList();
             }
             else if (first.equals("delete")) {
                 if (cmds.length < 2) {
                     throw new LeeException("Please indicate which task you want to delete with the task index");
                 }
                 deleteTask(cmds[1]);
+                refreshTaskList();
             }
             else {
-//            addTasks(command);
+                //addTasks(command);
                 throw new LeeException("Command not found TT");
             }
         } catch (LeeException e) {
@@ -141,8 +151,74 @@ public class Lee {
                         "Now you have %d tasks in the list.\n", tasks.size());
     }
 
+    private static void addTaskFromFile(String line) throws LeeException {
+        String[] task = line.split("\\|");
+        if (task.length < 3) {
+            throw new LeeException("Data file corrupted!");
+        }
+        if (!task[1].equals("1") && !task[1].equals("0")) {
+            throw new LeeException("Data file corrupted!");
+        }
+        boolean isDone = task[1].equals("1");
+        switch (task[0]) {
+        case "T" -> {
+            if (task.length != 3) {
+                throw new LeeException("Data file corrupted!");
+            }
+            tasks.add(new ToDo(task[2], isDone));
+        }
+        case "D" -> {
+            if (task.length != 4) {
+                throw new LeeException("Data file corrupted!");
+            }
+            tasks.add(new Deadline(task[2], task[3], isDone));
+        }
+        case "E" -> {
+            if (task.length != 5) {
+                throw new LeeException("Data file corrupted!");
+            }
+            tasks.add(new Event(task[2], task[3], task[4], isDone));
+        }
+        default -> throw new LeeException("Data file corrupted!");
+        }
+    }
+
+    private static void refreshTaskList() {
+        try {
+            FileWriter fw = new FileWriter("./data/taskList.txt");
+            for (Task task : tasks) {
+                fw.write(task.toFile() + System.lineSeparator());
+            }
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("Something went wrong: " + e.getMessage());
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println(horLine + greets + horLine);
+        try {
+            File f = new File("./data/taskList.txt");
+            if (f.exists()) {
+                Scanner s = new Scanner(f);
+                while (s.hasNext()) {
+                    addTaskFromFile(s.nextLine());
+                }
+            } else {
+                if (new File("./data").mkdirs()) {
+                    if (!f.createNewFile()) {
+                        throw new LeeException("Cannot create ./data/taskList.txt!");
+                    }
+                } else {
+                    throw new LeeException("Cannot create ./data directory!");
+                }
+            }
+        } catch (LeeException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            throw new RuntimeException(e);
+        }
         Scanner sc = new Scanner(System.in);
         String cmd = sc.nextLine();
         while (!cmd.equals("bye")) {
