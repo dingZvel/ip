@@ -16,9 +16,17 @@ public class Task {
         return (isDone ? "X" : " "); // mark done task with X
     }
 
+    public String getStatusBool() {
+        return (isDone ? "1" : "0");
+    }
+
     @Override
     public String toString() {
         return String.format("[%s] " + this.description, this.getStatusIcon());
+    }
+
+    public String toFile() {
+        return String.format("%s|%s", this.getStatusBool(), this.description);
     }
 
     public void markAsDone() {
