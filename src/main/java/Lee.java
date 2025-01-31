@@ -51,11 +51,11 @@ public class Lee {
                     throw new LeeException("Please give the task description.");
                 }
                 String order = command.split(" ", 2)[1];
-                if (order.split("/by").length < 2) {
+                if (order.split(" /by").length < 2) {
                     throw new LeeException("Please make sure to use \"/by\" to indicate the deadline");
                 }
-                String task = order.split("/by")[0];
-                String by = order.split("/by")[1];
+                String task = order.split(" /by")[0];
+                String by = order.split(" /by")[1];
                 addDeadline(task, by);
                 refreshTaskList();
             }
@@ -64,15 +64,15 @@ public class Lee {
                     throw new LeeException("Please give the task description.");
                 }
                 String order = command.split(" ", 2)[1];
-                if (order.split("/from").length < 2) {
+                if (order.split(" /from").length < 2) {
                     throw new LeeException("Please make sure to use \"/from\" to indicate the start time");
                 }
-                String task = order.split("/from")[0];
-                if (order.split("/from")[1].split("/to").length < 2) {
+                String task = order.split(" /from")[0];
+                if (order.split(" /from")[1].split(" /to").length < 2) {
                     throw new LeeException("Please make sure to use \"/to\" to indicate the end time");
                 }
-                String from = order.split("/from")[1].split("/to")[0];
-                String to = order.split("/from")[1].split("/to")[1];
+                String from = order.split(" /from")[1].split(" /to")[0];
+                String to = order.split(" /from")[1].split(" /to")[1];
                 addEvent(task, from, to);
                 refreshTaskList();
             }
