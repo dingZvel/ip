@@ -36,15 +36,13 @@ public class Parser {
         try {
             if (command.equals("list")) {
                 listTasks();
-            }
-            else if (first.equals("mark")) {
+            } else if (first.equals("mark")) {
                 if (commands.length < 2) {
                     throw new LeeException("Please indicate which task you want to mark with the task index");
                 }
                 mark(commands[1], true);
                 refreshTaskList();
-            }
-            else if (first.equals("unmark")) {
+            } else if (first.equals("unmark")) {
                 if (commands.length < 2) {
                     throw new LeeException("Please indicate which task you want to unmark with the task index");
                 }
@@ -58,8 +56,7 @@ public class Parser {
                 String task = command.split(" ", 2)[1];
                 addToDo(task);
                 refreshTaskList();
-            }
-            else if (first.equals("deadline")) {
+            } else if (first.equals("deadline")) {
                 if (command.split(" ", 2).length < 2) {
                     throw new LeeException("Please give the task description.");
                 }
@@ -71,8 +68,7 @@ public class Parser {
                 String by = order.split(" /by")[1];
                 addDeadline(task, by);
                 refreshTaskList();
-            }
-            else if (first.equals("event")) {
+            } else if (first.equals("event")) {
                 if (command.split(" ", 2).length < 2) {
                     throw new LeeException("Please give the task description.");
                 }
@@ -88,8 +84,7 @@ public class Parser {
                 String to = order.split(" /from")[1].split(" /to")[1];
                 addEvent(task, from, to);
                 refreshTaskList();
-            }
-            else if (first.equals("delete")) {
+            } else if (first.equals("delete")) {
                 if (commands.length < 2) {
                     throw new LeeException("Please indicate which task you want to delete with the task index");
                 }
@@ -204,9 +199,9 @@ public class Parser {
     /**
      * Lists out all the task currently in the list.
      */
-    private void listTasks(){
+    private void listTasks() {
         System.out.println("Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i ++){
+        for (int i = 0; i < tasks.size(); i++) {
             System.out.format("%d." + showTask(i), i + 1);
         }
     }
