@@ -11,13 +11,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Aggregates all storage related methods.
+ */
 public class Storage {
     public String filePath;
 
+    /**
+     * Initializes the path to the data file.
+     *
+     * @param filePath The string literal representing the path to the data file.
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * Retrieves one task from one line of the data file.
+     *
+     * @param tasks The current task list.
+     * @param line One line from the data file.
+     * @throws LeeException If the data file is corrupted.
+     */
     private void addTaskFromLine(ArrayList<Task> tasks, String line) throws LeeException {
         String[] task = line.split("\\|");
         if (task.length < 3) {
@@ -50,6 +65,13 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads the task list saved in the data file.
+     *
+     * @return The task list.
+     * @throws LeeException If the data file cannot be created due to some reason.
+     * @throws IOException If encounters any issue when reading the file.
+     */
     public ArrayList<Task> load() throws LeeException, IOException {
         File f = new File(filePath);
         if (f.exists()) {

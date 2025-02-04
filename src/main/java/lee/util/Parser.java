@@ -9,14 +9,27 @@ import lee.task.ToDo;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Parses and analyzes the given commands.
+ */
 public class Parser {
 
     private final TaskList tasks;
 
+    /**
+     * Initializes the TaskList object to be operated on.
+     *
+     * @param tasks The TaskList object.
+     */
     public Parser(TaskList tasks) {
         this.tasks = tasks;
     }
 
+    /**
+     * Parses the given command and do the relevant operations.
+     *
+     * @param command The command input by user.
+     */
     public void parse(String command) {
         String[] commands = command.split(" ");
         String first = commands[0];
@@ -92,10 +105,23 @@ public class Parser {
         }
     }
 
+    /**
+     * Shows the string representation of a given task.
+     *
+     * @param index The index of the Task object in the task list.
+     * @return The string representation of the given task.
+     */
     private String showTask(int index) {
         return tasks.get(index).toString() + "\n";
     }
 
+    /**
+     * Marks the status of a given task.
+     *
+     * @param num The string literal representing the given task index.
+     * @param b The new status of the task.
+     * @throws LeeException If the given command syntax is incorrect.
+     */
     private void mark(String num, boolean b) throws LeeException {
         int index = Integer.parseInt(num) - 1;
         if (index >= tasks.size()) {
@@ -106,24 +132,48 @@ public class Parser {
                 + showTask(index), b ? "Nice!" : "OK,", b ? "done" : "not done yet");
     }
 
+    /**
+     * Adds a ToDo task to the list.
+     *
+     * @param task The string representation of the task.
+     */
     private void addToDo(String task) {
         tasks.add(new ToDo(task));
         System.out.format("Got it. I've added this task:\n  %s\nNow you have %d tasks in the list.\n",
                 tasks.get(tasks.size() - 1).toString(), tasks.size());
     }
 
+    /**
+     * Adds a Deadline task to the list.
+     *
+     * @param task The string representation of the task.
+     * @param by The deadline of the task.
+     */
     private void addDeadline(String task, String by) {
         tasks.add(new Deadline(task, by));
         System.out.format("Got it. I've added this task:\n  %s\nNow you have %d tasks in the list.\n",
                 tasks.get(tasks.size() - 1).toString(), tasks.size());
     }
 
+    /**
+     * Adds an Event task to the list.
+     *
+     * @param task The string representation of the task.
+     * @param from The start time of the task.
+     * @param to The end time of the task.
+     */
     private void addEvent(String task, String from, String to) {
         tasks.add(new Event(task, from, to));
         System.out.format("Got it. I've added this task:\n  %s\nNow you have %d tasks in the list.\n",
                 tasks.get(tasks.size() - 1).toString(), tasks.size());
     }
 
+    /**
+     * Deletes a task based on the given task index.
+     *
+     * @param num The string literal index of the task to be deleted.
+     * @throws LeeException If the task index is out of bound.
+     */
     private void deleteTask(String num) throws LeeException {
         int index = Integer.parseInt(num) - 1;
         if (index >= tasks.size()) {
@@ -135,6 +185,9 @@ public class Parser {
     }
 
 
+    /**
+     * Updates the task list saved in the data file.
+     */
     private void refreshTaskList() {
         try {
             FileWriter fw = new FileWriter("./data/taskList.txt");
@@ -147,6 +200,10 @@ public class Parser {
             System.out.println("Something went wrong: " + e.getMessage());
         }
     }
+
+    /**
+     * Lists out all the task currently in the list.
+     */
     private void listTasks(){
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i ++){
