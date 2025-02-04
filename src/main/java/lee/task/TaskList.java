@@ -1,3 +1,5 @@
+package lee.task;
+
 import java.util.ArrayList;
 
 public class TaskList {

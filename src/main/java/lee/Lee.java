@@ -1,3 +1,10 @@
+package lee;
+
+import lee.task.TaskList;
+import lee.ui.Ui;
+import lee.util.Parser;
+import lee.util.Storage;
+
 import java.io.IOException;
 import java.util.Scanner;
 

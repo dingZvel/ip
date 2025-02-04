@@ -1,3 +1,11 @@
+package lee.util;
+
+import lee.LeeException;
+import lee.task.Deadline;
+import lee.task.Event;
+import lee.task.TaskList;
+import lee.task.ToDo;
+
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -93,7 +101,7 @@ public class Parser {
         if (index >= tasks.size()) {
             throw new LeeException("Please input a correct task index");
         }
-        tasks.get(index).isDone = b;
+        tasks.get(index).markDone(b);
         System.out.format("%s I've marked this task as %s:\n"
                 + showTask(index), b ? "Nice!" : "OK,", b ? "done" : "not done yet");
     }

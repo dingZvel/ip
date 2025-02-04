@@ -1,3 +1,5 @@
+package lee.task;
+
 public class Task {
     protected String description;
     protected boolean isDone;
@@ -29,11 +31,7 @@ public class Task {
         return String.format("%s|%s", this.getStatusBool(), this.description);
     }
 
-    public void markAsDone() {
-        this.isDone = true;
-    }
-
-    public void markAsNotDone() {
-        this.isDone = false;
+    public void markDone(boolean isDone) {
+        this.isDone = isDone;
     }
 }

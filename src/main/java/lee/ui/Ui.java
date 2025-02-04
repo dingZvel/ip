@@ -1,3 +1,5 @@
+package lee.ui;
+
 public class Ui {
     private final String HORlINE;
     private final String GREETS;
@@ -5,7 +7,7 @@ public class Ui {
 
     public Ui() {
         this.HORlINE = "____________________________________________________________\n";
-        this.GREETS = "Hello! I'm Lee.\nWhat can I do for you?\n";
+        this.GREETS = "Hello! I'm Lee.Lee.\nWhat can I do for you?\n";
         this.EXITS = "Bye. Hope to see you again soon!\n";
     }
 
