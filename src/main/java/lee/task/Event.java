@@ -22,11 +22,11 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from:" + from.format(FORMATTER) + " to:" + to.format(FORMATTER)+ ")";
+        return "[E]" + super.toString() + " (from:" + from.format(FORMATTER) + " to:" + to.format(FORMATTER) + ")";
     }
 
     @Override
     public String toFile() {
-        return "E|" + super.toFile() + "|" + from .format(FORMATTER)+ "|" + to.format(FORMATTER);
+        return "E|" + super.toFile() + "|" + from.format(FORMATTER) + "|" + to.format(FORMATTER);
     }
 }
