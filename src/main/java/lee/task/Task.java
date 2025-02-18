@@ -70,6 +70,12 @@ public class Task {
         this.isDone = isDone;
     }
 
+    /**
+     * Returns whether this task can be matched with the given keyword in description or not.
+     *
+     * @param keyword The string keyword to be searched.
+     * @return Ture if this task has keyword in description and False otherwise.
+     */
     public boolean match(String keyword) {
         return this.description.contains(keyword);
     }

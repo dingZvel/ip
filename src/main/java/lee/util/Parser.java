@@ -95,8 +95,7 @@ public class Parser {
                     throw new LeeException("Please indicate a keyword for the task you want to search for");
                 }
                 findTask(commands[1]);
-            }
-            else {
+            } else {
                 throw new LeeException("Command not found TT");
             }
         } catch (LeeException e) {
@@ -183,6 +182,11 @@ public class Parser {
                 "Now you have %d tasks in the list.\n", tasks.size());
     }
 
+    /**
+     * Finds all tasks that has keyword in descriptions and list them out.
+     *
+     * @param keyword The string keyword to be searched.
+     */
     private void findTask(String keyword) {
        System.out.println("Here are the matching tasks in your list:");
        int count = 0;
@@ -200,7 +204,6 @@ public class Parser {
     private void refreshTaskList() {
         try {
             FileWriter fw = new FileWriter("./data/taskList.txt");
-//            FileWriter fw = new FileWriter(filePath);
             for (int i = 0; i < tasks.size(); i++) {
                 fw.write(tasks.get(i).toFile() + System.lineSeparator());
             }
