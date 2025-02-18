@@ -90,9 +90,13 @@ public class Parser {
                 }
                 deleteTask(commands[1]);
                 refreshTaskList();
+            } else if (first.equals("find")) {
+                if (commands.length < 2) {
+                    throw new LeeException("Please indicate a keyword for the task you want to search for");
+                }
+                findTask(commands[1]);
             }
             else {
-                //addTasks(command);
                 throw new LeeException("Command not found TT");
             }
         } catch (LeeException e) {
@@ -179,6 +183,16 @@ public class Parser {
                 "Now you have %d tasks in the list.\n", tasks.size());
     }
 
+    private void findTask(String keyword) {
+       System.out.println("Here are the matching tasks in your list:");
+       int count = 0;
+       for (int i = 0; i < tasks.size(); i++) {
+           if (tasks.get(i).match(keyword)) {
+               count++;
+               System.out.format("%d." + showTask(i), count);
+           }
+       }
+    }
 
     /**
      * Updates the task list saved in the data file.

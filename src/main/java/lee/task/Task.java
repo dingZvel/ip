@@ -69,4 +69,8 @@ public class Task {
     public void markDone(boolean isDone) {
         this.isDone = isDone;
     }
+
+    public boolean match(String keyword) {
+        return this.description.contains(keyword);
+    }
 }
