@@ -86,6 +86,7 @@ public class Storage {
                 if (!f.createNewFile()) {
                     throw new LeeException("Cannot create ./data/taskList.txt!");
                 }
+                assert f.exists() : "The data file should be exist at this point.";
                 return new ArrayList<>();
             } else {
                 throw new LeeException("Cannot create ./data directory!");
