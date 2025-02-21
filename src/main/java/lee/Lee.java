@@ -33,7 +33,7 @@ public class Lee {
             ui.showLoadingError(e);
             throw new RuntimeException(e);
         }
-        parser = new Parser(tasks);
+        parser = new Parser(tasks, ui);
     }
 
     /**
