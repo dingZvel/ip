@@ -53,6 +53,15 @@ public class Lee {
         sc.close();
     }
 
+    public String getResponse(String input) {
+        if (input.equals("bye")) {
+            ui.exitUi();
+            return ui.getMessage();
+        }
+        parser.parse(input);
+        return ui.getMessage();
+    }
+
     /**
      * Serves as the entry point of the whole project.
      *

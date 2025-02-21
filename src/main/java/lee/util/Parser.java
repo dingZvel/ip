@@ -169,7 +169,7 @@ public class Parser {
     }
 
     /**
-     *  Finds all tasks matching the given keyword.
+     * Finds all tasks matching the given keyword.
      *
      * @param commands Command from user input.
      * @throws LeeException If the commands is in incorrect form.
