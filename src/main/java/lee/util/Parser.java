@@ -46,6 +46,7 @@ public class Parser {
             case "todo" -> addTodoTask(command);
             case "deadline" -> addDeadlineTask(command);
             case "event" -> addEventTask(command);
+            case "reschedule" -> rescheduleTask(command);
             case "delete" -> deleteTask(commands);
             case "find" -> findTask(commands);
             default -> throw new LeeException("Command not found TT");
@@ -167,6 +168,30 @@ public class Parser {
             throw new LeeException("Please input a correct task index");
         }
         ui.showDeleteTask(tasks.remove(index), tasks.size());
+        refreshTaskList();
+    }
+
+    /**
+     * Reschedules a deadline task.
+     *
+     * @param command Command from user input.
+     * @throws LeeException If the commands is in incorrect form.
+     */
+    private void rescheduleTask(String command) throws LeeException {
+        if (command.split(" ", 2).length < 2) {
+            throw new LeeException("Please give the task index and new deadline");
+        }
+        String order = command.split(" ", 2)[1];
+        if (order.split(" /by").length < 2) {
+            throw new LeeException("Please make sure to use \"/by\" to indicate the deadline");
+        }
+        int index = Integer.parseInt(order.split(" /by")[0]) - 1;
+        if (!(tasks.get(index) instanceof Deadline)) {
+            throw new LeeException("Only Deadline tasks can be rescheduled!");
+        }
+        String by = order.split(" /by")[1];
+        ((Deadline) tasks.get(index)).reschedule(by);
+        ui.showRescheduleTask(tasks.get(index), tasks.size());
         refreshTaskList();
     }
 

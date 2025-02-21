@@ -101,6 +101,18 @@ public class Ui {
     }
 
     /**
+     * Shows the task rescheduled.
+     *
+     * @param task The task rescheduled.
+     * @param num The size of the whole task list.
+     */
+    public void showRescheduleTask(Task task, int num) {
+        this.message = String.format("Noted. I've rescheduled this task:\n  " +
+                task + "\n" + "Now you have %d tasks in the list.\n", num);
+        System.out.print(message);
+    }
+
+    /**
      * Shows the matching task found.
      *
      * @param matchingList The TaskList of all matching tasks.
