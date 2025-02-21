@@ -38,7 +38,10 @@ public class Storage {
         if (task.length < 3) {
             throw new LeeException("Data file corrupted!");
         }
-        if (!task[1].equals("1") && !task[1].equals("0")) {
+        boolean isOne = task[1].equals("1");
+        boolean isZero = task[1].equals("0");
+        boolean secondPlaceCorrect = isOne || isZero;
+        if (!secondPlaceCorrect) {
             throw new LeeException("Data file corrupted!");
         }
         boolean isDone = task[1].equals("1");
@@ -82,15 +85,14 @@ public class Storage {
             }
             return tasks;
         } else {
-            if (new File("./data").mkdirs()) {
-                if (!f.createNewFile()) {
-                    throw new LeeException("Cannot create ./data/taskList.txt!");
-                }
-                assert f.exists() : "The data file should be exist at this point.";
-                return new ArrayList<>();
-            } else {
+            if (!new File("./data").mkdirs()) {
                 throw new LeeException("Cannot create ./data directory!");
             }
+            if (!f.createNewFile()) {
+                throw new LeeException("Cannot create ./data/taskList.txt!");
+            }
+            assert f.exists() : "The data file should be exist at this point.";
+            return new ArrayList<>();
         }
     }
 }
