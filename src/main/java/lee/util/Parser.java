@@ -34,7 +34,9 @@ public class Parser {
      * @param command The command input by user.
      */
     public void parse(String command) {
+        assert command != null : "commands from user shouldn't be null";
         String[] commands = command.split(" ");
+        assert commands.length >= 1 : "commands should have at least first part (command part)";
         String first = commands[0];
         try {
             switch (first) {
