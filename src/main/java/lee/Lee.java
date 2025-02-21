@@ -33,7 +33,7 @@ public class Lee {
             ui.showLoadingError(e);
             throw new RuntimeException(e);
         }
-        parser = new Parser(tasks);
+        parser = new Parser(tasks, ui);
     }
 
     /**
@@ -51,6 +51,15 @@ public class Lee {
         }
         ui.exitUi();
         sc.close();
+    }
+
+    public String getResponse(String input) {
+        if (input.equals("bye")) {
+            ui.exitUi();
+            return ui.getMessage();
+        }
+        parser.parse(input);
+        return ui.getMessage();
     }
 
     /**
