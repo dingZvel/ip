@@ -124,7 +124,7 @@ public class Ui {
         } else {
             this.message = "Here are the matching tasks in your list:\n";
             for (int i = 0; i < matchingList.size(); i++) {
-                this.message += String.format("%d." + matchingList.get(i) + "\n", i);
+                this.message += String.format("%d." + matchingList.get(i) + "\n", i + 1);
             }
             System.out.print(message);
         }
