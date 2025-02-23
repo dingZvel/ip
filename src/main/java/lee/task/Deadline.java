@@ -1,7 +1,10 @@
 package lee.task;
 
+import lee.LeeException;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * Represents event as one of the types of task. It has one additional field
@@ -35,8 +38,12 @@ public class Deadline extends Task {
         this.by = LocalDateTime.parse(by, FORMATTER);
     }
 
-    public void reschedule(String time) {
-        by = LocalDateTime.parse(time, FORMATTER);
+    public void reschedule(String time) throws LeeException {
+        try {
+            by = LocalDateTime.parse(time, FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new LeeException("Please give the time in correct form");
+        }
     }
 
     @Override
